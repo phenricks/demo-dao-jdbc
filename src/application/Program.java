@@ -2,6 +2,8 @@ package application;
 
 import java.util.Date;
 
+import factory.DAOFactory;
+import model.dao.impl.SellerDAO;
 import model.entities.Department;
 import model.entities.Seller;
 
@@ -15,6 +17,9 @@ public class Program {
 
 		System.out.println(obj);
 		System.out.println(seller);
+
+		SellerDAO sellerDao = DAOFactory.createSellerDAO();
+
 	}
 
 }
