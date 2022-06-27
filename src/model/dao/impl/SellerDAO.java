@@ -72,7 +72,42 @@ public class SellerDAO implements ISellerDAO {
 
 	@Override
 	public List<Seller> findAll() {
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT seller.*, ");
+		query.append("department.Name AS DepName ");
+		query.append("FROM seller INNER JOIN department ");
+		query.append("ON seller.DepartmentId = department.Id ");
+		query.append("ORDER BY Name");
+
+		try {
+			st = conn.prepareStatement(query.toString());
+			rs = st.executeQuery();
+
+			List<Seller> list = new ArrayList<>();
+			Map<Integer, Department> map = new HashMap<>();
+
+
+			while (rs.next()) {
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				if (dep == null) {
+					dep = instantiateDepartment(rs);
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+				Seller obj = instantiateSeller(rs, dep);
+				list.add(obj);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+
 	}
 
 	@Override
