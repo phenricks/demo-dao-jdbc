@@ -14,7 +14,7 @@ public class Program {
 
 		SellerDAO sellerDao = DAOFactory.createSellerDAO();
 		
-		System.out.println("#====TEST Seller: (findByID):");
+		System.out.println("#====TEST Seller: (FINDBYID):");
 		Seller seller = sellerDao.findById(3);
 		System.out.println(seller);
 
@@ -26,7 +26,7 @@ public class Program {
 			System.out.println(obj);
 		}
 
-		System.out.println("\n#====TEST Seller: (findAll):\n");
+		System.out.println("\n#====TEST Seller: (FINDALL):\n");
 		list = sellerDao.findAll();
 
 		for (Seller obj : list) {
@@ -37,6 +37,14 @@ public class Program {
 		Seller newSeller = new Seller(null, "Pedro", "pedro@teste.com", new Date(), 5000.00, dep);
 		sellerDao.insert(newSeller);
 		System.out.println("Inserted! ID: = " + newSeller.getId());
+
+		System.out.println("\n#====TEST Seller: (UPDATE):\n");
+		dep.setId(3);
+		Seller updateSeller = new Seller(7, "Pedro H S", "pedro@teste.com", new Date(), 9000.00, dep);
+		sellerDao.update(updateSeller);
+
+		System.out.println("\n#====TEST Seller: (DELETE):\n");
+		sellerDao.delete(8);
 
 	}
 

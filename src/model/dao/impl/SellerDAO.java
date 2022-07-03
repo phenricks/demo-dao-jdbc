@@ -1,6 +1,7 @@
 package model.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,10 +70,59 @@ public class SellerDAO implements ISellerDAO {
 
 	@Override
 	public void update(Seller obj) {
+		PreparedStatement ps = null;
+
+		StringBuilder query = new StringBuilder();
+		query.append("UPDATE seller ");
+		query.append("SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? ");
+		query.append("WHERE Id = ?");
+
+		try {
+			ps = conn.prepareStatement(query.toString());
+			ps.setString(1, obj.getName());
+			ps.setString(2, obj.getEmail());
+			ps.setDate(3, new Date(obj.getBirthDate().getTime()));
+			ps.setDouble(4, obj.getBaseSalary());
+			ps.setInt(5, obj.getDepartment().getId());
+			ps.setInt(6, obj.getId());
+
+			int rowAffected = ps.executeUpdate();
+
+			if (rowAffected > 0)
+				System.out.println("Update successfully!");
+			else
+				throw new DbException("Update failed!");
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+		}
 	}
 
 	@Override
 	public void delete(Integer id) {
+		PreparedStatement ps = null;
+
+		StringBuilder query = new StringBuilder();
+		query.append("DELETE FROM seller ");
+		query.append("WHERE id = ?");
+
+		try {
+			ps = conn.prepareStatement(query.toString());
+			ps.setInt(1, id);
+
+			int rowAffected = ps.executeUpdate();
+
+			if (rowAffected > 0)
+				System.out.println("Delete successfully!");
+			else
+				throw new DbException("Delete failed!");
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+
 	}
 
 	@Override
