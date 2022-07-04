@@ -114,10 +114,10 @@ public class SellerDAO implements ISellerDAO {
 
 			int rowAffected = ps.executeUpdate();
 
-			if (rowAffected > 0)
-				System.out.println("Delete successfully!");
+			if (rowAffected == 0)
+				throw new DbException("Id not found!");
 			else
-				throw new DbException("Delete failed!");
+				System.out.println("Delete successfully!");
 
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());

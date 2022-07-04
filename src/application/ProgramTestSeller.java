@@ -8,7 +8,7 @@ import model.dao.impl.SellerDAO;
 import model.entities.Department;
 import model.entities.Seller;
 
-public class Program {
+public class ProgramTestSeller {
 
 	public static void main(String[] args) {
 
@@ -39,12 +39,12 @@ public class Program {
 		System.out.println("Inserted! ID: = " + newSeller.getId());
 
 		System.out.println("\n#====TEST Seller: (UPDATE):\n");
-		dep.setId(3);
-		Seller updateSeller = new Seller(7, "Pedro H S", "pedro@teste.com", new Date(), 9000.00, dep);
-		sellerDao.update(updateSeller);
+		seller = sellerDao.findById(7);
+		seller.setBaseSalary(10000.0);
+		sellerDao.update(seller);
 
 		System.out.println("\n#====TEST Seller: (DELETE):\n");
-		sellerDao.delete(8);
+		sellerDao.delete(newSeller.getId()); // Deletando o novo insert na mesma run
 
 	}
 
